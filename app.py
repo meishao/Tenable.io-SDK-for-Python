@@ -18,7 +18,7 @@ def index():
 def getFolder():
     client = TenableIOClient()
     fl = client.folders_api.list()
-    print fl
+    return render_template('index.html', message=fl)
 
 if __name__ == "__main__":
     #import os
