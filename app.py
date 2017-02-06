@@ -16,10 +16,17 @@ def index():
     return render_template('index.html', message="Hello")
 
 @app.route('/folder')
+@app.route('/folder/<int:folderid>')
 def getFolder():
     client = TenableIOClient()
     _folders = client.folders_api.list().folders
     return render_template('index.html', data=_folders)
+
+@app.route('/getFolders')
+def getFolders():
+    client = TenableIOClient()
+    resp = client.get('folders')
+    return render_template('index.html', message=resp.text)
 
 if __name__ == "__main__":
     #import os
