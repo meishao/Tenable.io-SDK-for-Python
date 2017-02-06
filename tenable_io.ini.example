@@ -1,7 +1,7 @@
 [tenable_io]
 ;endpoint=https://cloud.tenable.com/
-access_key={{ACCESS_KEY}}
-secret_key={{SECRET_KEY}}
+access_key=79a6f8066cc80648a5b904e7c79359067bc1de23d92fc8d14484bafbc32062a0
+secret_key=2717f8bdea4cad461e208ec5c3eddbddddb8463a1bf7ad7352a258150ba8de08
 
 [tenable_io-test]
 ; Name of template to create a scan with.
