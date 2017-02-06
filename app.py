@@ -5,6 +5,7 @@ from datetime import datetime
 from tenable_io.api.models import Folder
 from tenable_io.client import TenableIOClient
 from tenable_io.exceptions import TenableIOApiException
+import json
 
 app = Flask(__name__)
 
