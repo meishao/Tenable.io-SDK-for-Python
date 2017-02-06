@@ -2,6 +2,10 @@
 # coding: utf-8
 from flask import Flask, request, render_template
 from datetime import datetime
+from tenable_io.api.models import Folder
+from tenable_io.client import TenableIOClient
+from tenable_io.exceptions import TenableIOApiException
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -9,19 +13,13 @@ def index():
     # 「templates/index.html」のテンプレートを使う
     # 「message」という変数に"Hello"と代入した状態で、テンプレート内で使う
     return render_template('index.html', message="Hello")
-#def homepage():
-#    the_time = datetime.now().strftime("%A, %d %b %Y %l:%M %p")
 
-#    return """
-#    <h1>Hello heroku</h1>
-#    <p>It is currently {time}.</p>
+@app.route('/folder')
+def getFolder():
+    client = TenableIOClient()
+    fl = client.folders_api.list()
+    print fl
 
-#    <img src="http://loremflickr.com/600/400">
-#    """.format(time=the_time)
-
-#if __name__ == '__main__':
-#    app.run(debug=True, use_reloader=True)
-    
 if __name__ == "__main__":
     #import os
     port = 8000
