@@ -19,7 +19,7 @@ def index():
 def getFolder():
     client = TenableIOClient()
     _folders = client.folders_api.list().folders
-    return render_template('index.html', data=json.dumps(_folders))
+    return render_template('index.html', data=_folders)
 
 if __name__ == "__main__":
     #import os
