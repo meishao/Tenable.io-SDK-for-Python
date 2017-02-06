@@ -1,1 +1,7 @@
-.
+uwsgi
+flask
+flask-restful
+gevent
+gevent-websocket
+uwsgitop
+werkzeug
