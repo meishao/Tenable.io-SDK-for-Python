@@ -7,7 +7,7 @@
 <body>
     <p>{{ message }}</p>
     {% for item in data %}
-    <p>{{item.id | safe}} | {{ item.name|safe }}</p>
+    <p>{{item.id | safe}} | {{ item.name|safe }} | {{ item.title|safe }}</p>
     {% endfor %}
 </body>
 </html>
