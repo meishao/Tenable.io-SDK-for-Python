@@ -107,11 +107,11 @@ def scan_ope(ope, id):
         # 診断IDより診断対象取得
         scan_b = client.scan_helper.id(id)
         return render_template('index.html', message=str(scan_b.status()))
-    elif ope == 'stop':
+    elif ope == 'delete':
         # インスタンス初期化
         client = TenableIOClient()    
         # 診断対象のID或は登録名が入力画面もしくは入力パラメータから渡される
-        client.scans_api.stop(id)
+        client.scans_api.delete(id)
         # 診断IDより診断対象取得
         scan_b = client.scan_helper.id(id)
         return render_template('index.html', message=str(scan_b.status()))
