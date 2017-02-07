@@ -65,7 +65,8 @@ def scan_reg():
         template='basic'
     )
     # assert scan.name() = scan_name
-    
+    msg = scan.name() + u"が正常に登録できました。"
+    return render_template('index.html', message=msg)
 
 #@app.route('/scans/ope')
 @app.route('/scans/<string:ope>/<int:id>')
