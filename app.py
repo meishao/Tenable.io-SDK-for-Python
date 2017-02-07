@@ -63,7 +63,7 @@ def host_reg(hostname, template):
         scan = client.scan_helper.create(
             name=hostname, 
             text_targets=hostname,
-            template='basic'
+            template=template
         )
         # assert scan.name() = scan_name
         msg = scan.id + "|" + scan.name() + u"が正常に登録できました。"
