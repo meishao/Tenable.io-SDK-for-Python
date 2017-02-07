@@ -17,18 +17,23 @@ def index():
 
 @app.route('/folder')
 @app.route('/folder/<int:folderid>')
+# フォルダ情報取得
+# 取得情報をオブジェクト形式出力
 def getFolder():
     client = TenableIOClient()
     _folders = client.folders_api.list().folders
     return render_template('index.html', data=_folders)
 
 @app.route('/getFolders')
+# フォルダ情報取得
+# 取得情報をJSON形式出力
 def getFolders():
     client = TenableIOClient()
     resp = client.get('folders')
     return render_template('index.html', message=resp.text)
 
 @app.route('/scans_template/')
+# 診断テンプレートのリスト取得
 def scans_template():
     client = TenableIOClient()
     tpl = client.editor_api.list('scan')
