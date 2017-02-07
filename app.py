@@ -81,7 +81,7 @@ def scan_ope(id):
     client = TenableIOClient()    
     # 診断対象のID或は登録名が入力画面もしくは入力パラメータから渡される
     client.scans_api.launch(id)
-    retunr render_template('index.html', message=str(client.scan_helper.id(id).status()))
+    return render_template('index.html', message=str(client.scan_helper.id(id).status()))
     
     
 if __name__ == "__main__":
