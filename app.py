@@ -48,25 +48,28 @@ def scans_template():
     tpl = client.editor_api.list('scan')
     return render_template('index.html', data=tpl.templates)
 
-@app.route('/scan_reg')
+@app.route('/host_reg/<string:hostname>/<string:template>')
 # 診断対象を登録する
 # 登録に必要なパラメータ
 # name: 診断対象名　（例：google）
 # text_targets: 診断対象のホスト名或はIPアドレス　（例：www.google.com）
 # templete: 診断テンプレート　（例：basic | 診断テンプレート一覧　/scan_templateを参照）
-def scan_reg():
+def host_reg(hostname, template):
     
-    # インスタンス初期化
-    client = TenableIOClient()
-    # 新規診断対象を登録する
-    scan = client.scan_helper.create(
-        name='google.com', 
-        text_targets='www.google.com',
-        template='basic'
-    )
-    # assert scan.name() = scan_name
-    msg = scan.id + "|" + scan.name() + u"が正常に登録できました。"
-    return render_template('index.html', message=msg)
+    if len(hostname) != 0:
+        # インスタンス初期化
+        client = TenableIOClient()
+        # 新規診断対象を登録する
+        scan = client.scan_helper.create(
+            name=hostname, 
+            text_targets=hostname,
+            template='basic'
+        )
+        # assert scan.name() = scan_name
+        msg = scan.id + "|" + scan.name() + u"が正常に登録できました。"
+        return render_template('index.html', message=msg)
+    else:
+        return render_template('index.html', message=u"HOST_REG|不正アクセスを記録しました。")
 
 #@app.route('/scans/ope')
 @app.route('/scans/<string:ope>/<int:id>')
@@ -83,7 +86,7 @@ def scan_ope(ope, id):
         # 診断IDより診断対象取得
         scan_b = client.scan_helper.id(id)
         return render_template('index.html', message=str(scan_b.status()))    
-    if ope == 'launch':
+    elif ope == 'launch':
         # インスタンス初期化
         client = TenableIOClient()    
         # 診断対象のID或は登録名が入力画面もしくは入力パラメータから渡される
@@ -126,7 +129,7 @@ def scan_ope(ope, id):
         else:
             return render_template('index.html', message=u"診断対象を削除できませんでした。")
     else:
-        return render_template('index.html', message=u"不正アクセスを記録しました。")
+        return render_template('index.html', message=u"SCAN_OPE|不正アクセスを記録しました。")
     
 if __name__ == "__main__":
     #import os
