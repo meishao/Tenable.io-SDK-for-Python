@@ -70,7 +70,7 @@ def scan_reg(name, text_targets, template):
     scan_b = client.scan_helper.id(scan.id)
 
 @app.route('/scan_ope')
-@app.route('/scan_ope/<str:ope>')
+@app.route('/scan_ope/<string:ope>')
 # 診断対象を操作する
 # 実行に必要なパラメータ
 # ope = launch, pause, stop, delete
@@ -81,7 +81,7 @@ def scan_ope(id):
     client = TenableIOClient()    
     # 診断対象のID或は登録名が入力画面もしくは入力パラメータから渡される
     client.scans_api.launch(id)
-    return render_template('index.html', message=client.scan_helper.id(id).status())
+    return render_template('index.html', message=str(client.scan_helper.id(id).status()))
     
     
 if __name__ == "__main__":
