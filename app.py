@@ -81,7 +81,7 @@ def scan_ope(ope):
     # 診断IDより診断対象取得
     scan_b = client.scan_helper.id(id)
     scan_b.launch(id)
-    return render_template('index.html', message=str(client.scan_b.status()))
+    return render_template('index.html', message=str(scan_b.status()))
     
     
 if __name__ == "__main__":
