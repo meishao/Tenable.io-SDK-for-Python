@@ -111,10 +111,12 @@ def scan_ope(ope, id):
         # インスタンス初期化
         client = TenableIOClient()    
         # 診断対象のID或は登録名が入力画面もしくは入力パラメータから渡される
-        client.scans_api.delete(id)
-        # 診断IDより診断対象取得
-        scan_b = client.scan_helper.id(id)
-        return render_template('index.html', message=str(scan_b.status()))
+        resp = client.scans_api.delete(id)
+        # 削除結果を確認する
+        if resp is True:
+            return render_template('index.html', message=u"診断対象を正しく削除できました。")
+        else:
+            return render_template('index.html', message=u"診断対象を削除できませんでした。")
     else:
         return render_template('index.html', message=u"不正アクセスを記録しました。")
     
