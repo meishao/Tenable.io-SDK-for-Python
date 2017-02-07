@@ -76,6 +76,13 @@ def scan_reg():
 # id: 診断対象ID 
 def scan_ope(ope, id):
     
+    if ope == 'status':
+        # インスタンス初期化
+        client = TenableIOClient()    
+        # 診断対象のID或は登録名が入力画面もしくは入力パラメータから渡される
+        # 診断IDより診断対象取得
+        scan_b = client.scan_helper.id(id)
+        return render_template('index.html', message=str(scan_b.status()))    
     if ope == 'launch':
         # インスタンス初期化
         client = TenableIOClient()    
