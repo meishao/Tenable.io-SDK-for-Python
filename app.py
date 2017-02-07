@@ -116,7 +116,7 @@ def scan_ope(ope, id):
         scan_b = client.scan_helper.id(id)
         return render_template('index.html', message=str(scan_b.status()))
     else:
-        return render_template('index.html', message="不正アクセスを記録しました。")
+        return render_template('index.html', message=u"不正アクセスを記録しました。")
     
 if __name__ == "__main__":
     #import os
