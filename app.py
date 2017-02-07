@@ -66,22 +66,22 @@ def scan_reg():
     )
     # assert scan.name() = scan_name
     
-    # 診断IDより診断対象取得
-    scan_b = client.scan_helper.id(scan.id)
 
 @app.route('/scan_ope')
 @app.route('/scan_ope/<string:ope>')
 # 診断対象を操作する
 # 実行に必要なパラメータ
 # ope = launch, pause, stop, delete
-def scan_ope():
+def scan_ope(ope):
     
-    id = 19
+    id = ope
     # インスタンス初期化
     client = TenableIOClient()    
     # 診断対象のID或は登録名が入力画面もしくは入力パラメータから渡される
-    client.scans_api.launch(id)
-    return render_template('index.html', message=str(client.scan_helper.id(id).status()))
+    # 診断IDより診断対象取得
+    scan_b = client.scan_helper.id(id)
+    scan_b.launch(id)
+    return render_template('index.html', message=str(client.scan_b.status()))
     
     
 if __name__ == "__main__":
