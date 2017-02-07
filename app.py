@@ -28,6 +28,12 @@ def getFolders():
     resp = client.get('folders')
     return render_template('index.html', message=resp.text)
 
+@app.route('/scans_template/')
+def scans_template():
+    client = TenableIOClient()
+    tpl = client.editor_api.list('scan')
+    return render_template('index.html', data=tpl.templates)
+
 if __name__ == "__main__":
     #import os
     port = 8000
