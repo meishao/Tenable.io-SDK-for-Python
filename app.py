@@ -2,7 +2,14 @@
 # coding: utf-8
 from flask import Flask, request, render_template
 from datetime import datetime
+from time import time
+
+import os
+
 from tenable_io.api.models import Folder
+from tenable_io.api.models import Scan
+from tenable_io.api.scans import ScanExportRequest
+
 from tenable_io.client import TenableIOClient
 from tenable_io.exceptions import TenableIOApiException
 import json
@@ -32,13 +39,51 @@ def getFolders():
     resp = client.get('folders')
     return render_template('index.html', message=resp.text)
 
-@app.route('/scans_template/')
+@app.route('/scans_template')
 # 診断テンプレートのリスト取得
 def scans_template():
+
+    # インスタンス初期化
     client = TenableIOClient()
     tpl = client.editor_api.list('scan')
     return render_template('index.html', data=tpl.templates)
 
+@app.route('/scan_reg')
+# 診断対象を登録する
+# 登録に必要なパラメータ
+# name: 診断対象名　（例：google）
+# text_targets: 診断対象のホスト名或はIPアドレス　（例：www.google.com）
+# templete: 診断テンプレート　（例：basic | 診断テンプレート一覧　/scan_templateを参照）
+def scan_reg(name, text_targets, template):
+    
+    # インスタンス初期化
+    client = TenableIOClient()
+    # 新規診断対象を登録する
+    scan = client.scan_helper.create(
+        name='google.com', 
+        text_targets='www.google.com',
+        template='basic'
+    )
+    # assert scan.name() = scan_name
+    
+    # 診断IDより診断対象取得
+    scan_b = client.scan_helper.id(scan.id)
+
+@app.route('/scan_ope')
+@app.route('/scan_ope/<str:ope>')
+# 診断対象を操作する
+# 実行に必要なパラメータ
+# ope = launch, pause, stop, delete
+def scan_ope(id):
+    
+    id = 19
+    # インスタンス初期化
+    client = TenableIOClient()    
+    # 診断対象のID或は登録名が入力画面もしくは入力パラメータから渡される
+    client.scans_api.launch(id)
+    retunr render_template('index.html', message=str(client.scan_helper.id(id).status()))
+    
+    
 if __name__ == "__main__":
     #import os
     port = 8000
