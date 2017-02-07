@@ -54,7 +54,7 @@ def scans_template():
 # name: 診断対象名　（例：google）
 # text_targets: 診断対象のホスト名或はIPアドレス　（例：www.google.com）
 # templete: 診断テンプレート　（例：basic | 診断テンプレート一覧　/scan_templateを参照）
-def scan_reg(name, text_targets, template):
+def scan_reg():
     
     # インスタンス初期化
     client = TenableIOClient()
@@ -74,7 +74,7 @@ def scan_reg(name, text_targets, template):
 # 診断対象を操作する
 # 実行に必要なパラメータ
 # ope = launch, pause, stop, delete
-def scan_ope(id):
+def scan_ope():
     
     id = 19
     # インスタンス初期化
