@@ -67,22 +67,56 @@ def scan_reg():
     # assert scan.name() = scan_name
     
 
-@app.route('/scan_ope')
-@app.route('/scan_ope/<string:ope>')
+#@app.route('/scans/ope')
+@app.route('/scans/<string:ope>/<int:id>')
 # 診断対象を操作する
 # 実行に必要なパラメータ
-# ope = launch, pause, stop, delete
-def scan_ope(ope):
+# ope: launch, pause, stop, delete, resume
+# id: 診断対象ID 
+def scan_ope(ope, id):
     
-    id = ope
-    # インスタンス初期化
-    client = TenableIOClient()    
-    # 診断対象のID或は登録名が入力画面もしくは入力パラメータから渡される
-    # 診断IDより診断対象取得
-    scan_b = client.scan_helper.id(id)
-    scan_b.launch(id)
-    return render_template('index.html', message=str(scan_b.status()))
-    
+    if ope == 'launch':
+        # インスタンス初期化
+        client = TenableIOClient()    
+        # 診断対象のID或は登録名が入力画面もしくは入力パラメータから渡される
+        # 診断IDより診断対象取得
+        scan_b = client.scan_helper.id(id)
+        scan_b.launch(id)
+        return render_template('index.html', message=str(scan_b.status()))
+    elif ope == 'pause':
+        # インスタンス初期化
+        client = TenableIOClient()    
+        # 診断対象のID或は登録名が入力画面もしくは入力パラメータから渡される
+        client.scans_api.pause(id)
+        # 診断IDより診断対象取得
+        scan_b = client.scan_helper.id(id)
+        return render_template('index.html', message=str(scan_b.status()))
+    elif ope == 'stop':
+         # インスタンス初期化
+        client = TenableIOClient()    
+        # 診断対象のID或は登録名が入力画面もしくは入力パラメータから渡される
+        client.scans_api.stop(id)
+        # 診断IDより診断対象取得
+        scan_b = client.scan_helper.id(id)
+        return render_template('index.html', message=str(scan_b.status()))
+    elif ope == 'resume':
+        # インスタンス初期化
+        client = TenableIOClient()    
+        # 診断対象のID或は登録名が入力画面もしくは入力パラメータから渡される
+        client.scans_api.resume(id)
+        # 診断IDより診断対象取得
+        scan_b = client.scan_helper.id(id)
+        return render_template('index.html', message=str(scan_b.status()))
+    elif ope == 'stop':
+        # インスタンス初期化
+        client = TenableIOClient()    
+        # 診断対象のID或は登録名が入力画面もしくは入力パラメータから渡される
+        client.scans_api.stop(id)
+        # 診断IDより診断対象取得
+        scan_b = client.scan_helper.id(id)
+        return render_template('index.html', message=str(scan_b.status()))
+    else:
+        return render_template('index.html', message="不正アクセスを記録しました。")
     
 if __name__ == "__main__":
     #import os
