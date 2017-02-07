@@ -66,7 +66,7 @@ def host_reg(hostname, template):
             template=template
         )
         # assert scan.name() = scan_name
-        msg = scan.id + "|" + scan.name() + u"が正常に登録できました。"
+        msg = str(scan.id) + "|" + scan.name() + u"が正常に登録できました。"
         return render_template('index.html', message=msg)
     else:
         return render_template('index.html', message=u"HOST_REG|不正アクセスを記録しました。")
