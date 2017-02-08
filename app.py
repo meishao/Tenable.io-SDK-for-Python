@@ -39,7 +39,6 @@ def requires_auth(f):
 app = Flask(__name__)
 
 @app.route('/')
-@requires_auth
 def index():
     # 「templates/index.html」のテンプレートを使う
     # 「message」という変数に"Hello"と代入した状態で、テンプレート内で使う
@@ -72,6 +71,7 @@ def scans_template():
     return render_template('index.html', data=tpl.templates)
 
 @app.route('/host_reg/<string:hostname>/<string:template>')
+@requires_auth
 # 診断対象を登録する
 # 登録に必要なパラメータ
 # name: 診断対象名　（例：google）
@@ -96,6 +96,7 @@ def host_reg(hostname, template):
 
 #@app.route('/scans/ope')
 @app.route('/scans/<string:ope>/<int:id>')
+@requires_auth
 # 診断対象を操作する
 # 実行に必要なパラメータ
 # ope: launch, pause, stop, delete, resume
