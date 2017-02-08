@@ -1,9 +1,9 @@
 #!/bin/env/python
 # coding: utf-8
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, Response
 from datetime import datetime
 from time import time
-
+from functools import wraps
 import os
 
 from tenable_io.api.models import Folder
@@ -14,9 +14,32 @@ from tenable_io.client import TenableIOClient
 from tenable_io.exceptions import TenableIOApiException
 import json
 
+def check_auth(username, password):
+    """This function is called to check if a username /
+    password combination is valid.
+    """
+    return username == 'admin' and password == 'admin'
+
+def authenticate():
+    """Sends a 401 response that enables basic auth"""
+    return Response(
+    'Could not verify your access level for that URL.\n'
+    'You have to login with proper credentials', 401,
+    {'WWW-Authenticate': 'Basic realm="Login Required"'})
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth or not check_auth(auth.username, auth.password):
+            return authenticate()
+        return f(*args, **kwargs)
+    return decorated
+
 app = Flask(__name__)
 
 @app.route('/')
+@requires_auth
 def index():
     # 「templates/index.html」のテンプレートを使う
     # 「message」という変数に"Hello"と代入した状態で、テンプレート内で使う
