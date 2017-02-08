@@ -1,0 +1,6 @@
+If “%{HTTP_HOST} != ‘example.com'”
+DirectoryIndex index.html
+AuthUserFile /app/.htpasswd
+AuthType Basic
+AuthName “認証必要です。不正アクセスを記録します。”
+Require valid-user
