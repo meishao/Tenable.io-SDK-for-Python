@@ -62,6 +62,7 @@ def getFolders():
     return render_template('index.html', message=resp.text)
 
 @app.route('/scans_template')
+@requires_auth
 # 診断テンプレートのリスト取得
 def scans_template():
 
