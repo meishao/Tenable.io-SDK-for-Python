@@ -217,7 +217,7 @@ def report_ope(ope, scan_id, file_id):
 
 @app.route('/test_dir')
 def test_dir():
-    tenable_csv_folder = '/app/csv_report/tenable/'
+    tenable_csv_folder = '/tmp/csv_report/tenable/'
     if os.path.isfile(tenable_csv_folder):
         pass
     else:
