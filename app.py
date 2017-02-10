@@ -164,7 +164,7 @@ def scan_ope(ope, id):
 # 応答：　レポートファイル(file ID)が返す
 def report_request(scan_id):
     
-    if len(scan_id) != 0:
+    if scan_id:
         # インスタンス初期化
         client = TenableIOClient()
         # レポートRAWデータをCSV形式で出力する要求をする
