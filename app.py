@@ -191,7 +191,7 @@ def report_ope(ope, scan_id, file_id):
     client = TenableIOClient()
     # 一時レポートCSVファイル名
     todaynow = datetime.today().strftime('%Y%m%d%H%M%S')
-    tenable_csv_folder = 'csv_report/tenable/'
+    tenable_csv_folder = '/app/csv_report/tenable/'
     tenable_csv_file = tenable_csv_folder + str(todaynow) + '_scanid_' + str(scan_id) + '.csv'
     if os.path.isdir(tenable_csv_folder):
         pass
