@@ -205,7 +205,7 @@ def report_ope(ope, scan_id, file_id):
         return render_template('index.html', message=str_msg)
     elif ope == 'download':
         request_uri = 'scans/' + str(scan_id) + '/export/' + str(file_id) + '/download'
-        resp = client.get(request_url, path_params={'scan_id':scan_id, 'file_id':file_id}, stream=True)
+        resp = client.get(request_uri, path_params={'scan_id':scan_id, 'file_id':file_id}, stream=True)
         iter_content = resp.iter_content(chunk_size=1024)
         with open(tenable_csv_file, mode='wb', encoding='uft-8') as fd:
             for ck in iter_content:
