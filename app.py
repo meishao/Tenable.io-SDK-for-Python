@@ -8,7 +8,7 @@ import os
 
 from tenable_io.api.models import Folder
 from tenable_io.api.models import Scan
-from tenable_io.api.scans import ScanExportRequest
+from tenable_io.api.scans import ScansApi, ScanCreateRequest, ScanExportRequest, ScanImportRequest, ScanLaunchRequest
 
 from tenable_io.client import TenableIOClient
 from tenable_io.exceptions import TenableIOApiException
@@ -155,6 +155,39 @@ def scan_ope(ope, id):
             return render_template('index.html', message=u"診断対象を削除できませんでした。")
     else:
         return render_template('index.html', message=u"SCAN_OPE|不正アクセスを記録しました。")
+
+@app.route('/report/request/<int:scan_id>')
+@requires_auth
+# 診断レポートRAWデータを要求する
+# RAWデータ：　脆弱性診断データ（CSV）、ホスト情報
+# scan_id: 診断対象登録時、発行するID
+# 応答：　レポートファイル(file ID)が返す
+def report_request(scan_id):
+    
+    if len(scan_id) != 0:
+        # インスタンス初期化
+        client = TenableIOClient()
+        # レポートRAWデータをCSV形式で出力する要求をする
+        request_uri = 'scans/' + str(scan_id) + '/export'
+        resp = client.post(request_uri, ScanExportRequest(format=u'csv'), path_params={'scan_id':scan_id})
+        if resp.status_code == 200:
+            obj_msg = json.loads(resp.text)
+            str_msg = str(obj_msg.get('file')) + u'|レポート要求が正常に受信できました。'
+            return render_template('index.html', message=str_msg)
+        else:
+            return render_template('index.html', message=u"REPORT_REQUEST_ERROR|レポート要求時エラーが発生しています。")
+    else:
+        return render_template('index.html', message=u"REPORT_REQUEST|不正アクセスを記録しました。")
+
+@app.route('/report/<string:ope>/<int:scan_id>/<int:file_id>')
+@requires_auth
+# 要求レポートの生成状況確認及びダウンロード
+# 実行に必要なパラメータ
+# ope: status, download
+# scan_id: 診断対象ID
+# file_id: レポートファイルID
+def report_ope(ope, scan_id, file_id):
+    return "0"
     
 if __name__ == "__main__":
     #import os
