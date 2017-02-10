@@ -187,7 +187,33 @@ def report_request(scan_id):
 # scan_id: 診断対象ID
 # file_id: レポートファイルID
 def report_ope(ope, scan_id, file_id):
-    return "0"
+    # インスタンス初期化
+    client = TenableIOClient()
+    # 一時レポートCSVファイル名
+    todaynow = datetime.today().strftime('%Y%m%d%H%M%S')
+    tenable_csv_folder = 'csv_report/tenable/'
+    tenable_csv_file = tenable_csv_folder + str(todaynow) + '_scanid_' + str(scan_id) + '.csv'
+    if os.path.isdir(tenable_csv_folder):
+        pass
+    else:
+        os.makedirs(tenable_csv_folder)
+    if ope == 'status':
+        request_uri = 'scans/' + str(scan_id) + '/export/' + str(file_id) + '/status'
+        resp = client.get(request_uri, path_params={'scan_id':scan_id, 'file_id':file_id})
+        obj_msg = json.loads(resp.text)
+        str_msg = obj_msg.get('status')
+        return render_template('index.html', message=str_msg)
+    elif ope == 'download':
+        request_uri = 'scans/' + str(scan_id) + '/export/' + str(file_id) + '/download'
+        resp = client.get(request_url, path_params={'scan_id':scan_id, 'file_id':file_id}, stream=True)
+        iter_content = resp.iter_content(chunk_size=1024)
+        with open(tenable_csv_file, mode='wb', encoding='uft-8') as fd:
+            for ck in iter_content:
+                fd.write(ck)
+        str_msg = u'https://tenable-io.herokuapp.com/' + tenable_csv_file 
+        return return render_template('index.html', message=str_msg)
+    else:
+        return render_template('index.html', message=u"REPORT_OPE|不正アクセスを記録しました。")
     
 if __name__ == "__main__":
     #import os
