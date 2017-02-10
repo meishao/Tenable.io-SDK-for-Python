@@ -207,7 +207,7 @@ def report_ope(ope, scan_id, file_id):
         request_uri = 'scans/' + str(scan_id) + '/export/' + str(file_id) + '/download'
         resp = client.get(request_uri, path_params={'scan_id':scan_id, 'file_id':file_id}, stream=True)
         iter_content = resp.iter_content(chunk_size=1024)
-        with open(tenable_csv_file, mode='wb', encoding='uft-8') as fd:
+        with open(tenable_csv_file, 'wb') as fd:
             for ck in iter_content:
                 fd.write(ck)
         str_msg = u'https://tenable-io.herokuapp.com/' + tenable_csv_file 
