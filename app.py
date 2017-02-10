@@ -211,7 +211,7 @@ def report_ope(ope, scan_id, file_id):
             for ck in iter_content:
                 fd.write(ck)
         str_msg = u'https://tenable-io.herokuapp.com/' + tenable_csv_file 
-        return return render_template('index.html', message=str_msg)
+        return render_template('index.html', message=str_msg)
     else:
         return render_template('index.html', message=u"REPORT_OPE|不正アクセスを記録しました。")
     
