@@ -219,7 +219,7 @@ def report_ope(ope, scan_id, file_id):
 def test_dir():
     tenable_csv_folder = '/app/csv_report/tenable/'
     os.makedirs(tenable_csv_folder)
-    return "ok"
+    return render_template('index.html', message=str(os.getcwd()))
     
 if __name__ == "__main__":
     #import os
