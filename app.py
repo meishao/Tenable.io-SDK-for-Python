@@ -5,6 +5,7 @@ from datetime import datetime
 from time import time
 from functools import wraps
 import os
+import boto3
 
 from tenable_io.api.models import Folder
 from tenable_io.api.models import Scan
@@ -225,7 +226,16 @@ def test_dir():
         os.makedirs(tenable_csv_folder)
     str_msg = str(os.path.isfile(tenable_csv_folder)) + "|" + str(os.getcwd())
     return render_template('index.html', message=str_msg)
+
+@app.route('/test_s3')
+def test_s3():
     
+    S3_BUCKET = os.environ.get('S3_BUCKET')
+    s3 = boto3.client('s3')
+    data = u'this is a test'
+    s3.upload_fileobj(data, S3_BUCKET, '20170212_tenable.csv')
+    s3.upload_fileobj(data, S3_BUCKET, '/tenable/20170212_tenable.csv')
+
 if __name__ == "__main__":
     #import os
     port = 8000
