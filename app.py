@@ -238,6 +238,7 @@ def test_s3(scan_id, file_id):
     
     S3_BUCKET = os.environ.get('S3_BUCKET')
     s3 = boto3.client('s3')
+    bucket = s3.Bucket(S3_BUCKET)
     
     PUT_OBJECT_KEY_NAME = '/tenable/20170212_test.csv'
     obj = bucket.Object(PUT_OBJECT_KEY_NAME)
