@@ -240,13 +240,13 @@ def test_s3(scan_id, file_id):
     s3 = boto3.resource('s3')
     bucket = s3.Bucket(S3_BUCKET)
     
-    PUT_OBJECT_KEY_NAME = '/tenable/20170212_test.csv'
+    PUT_OBJECT_KEY_NAME = '20170212_test.csv'
     obj = bucket.Object(PUT_OBJECT_KEY_NAME)
 
     response = obj.put(
         Body=resp.text,
         ContentEncoding='utf-8',
-        ContentType='text/plane'
+        ContentType='text/plain'
     )
     
 if __name__ == "__main__":
