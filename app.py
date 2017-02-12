@@ -249,6 +249,8 @@ def test_s3(scan_id, file_id):
         ContentType='text/plain'
     )
     
+    return response
+    
 if __name__ == "__main__":
     #import os
     port = 8000
