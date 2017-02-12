@@ -246,7 +246,7 @@ def test_s3(scan_id, file_id):
     response = obj.put(
         Body=resp.text,
         ContentEncoding='utf-8',
-        ContentType='text/plain'
+        ContentType='text/csv'
     )
     
     return jsonify(response)
