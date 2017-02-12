@@ -244,7 +244,7 @@ def test_s3(scan_id, file_id):
     obj = bucket.Object(PUT_OBJECT_KEY_NAME)
 
     response = obj.put(
-        Body=body.encode('utf-8'),
+        Body=iter_content.encode('utf-8'),
         ContentEncoding='utf-8',
         ContentType='text/plane'
     )
