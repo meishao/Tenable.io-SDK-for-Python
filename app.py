@@ -1,6 +1,6 @@
 #!/bin/env/python
 # coding: utf-8
-from flask import Flask, request, render_template, Response
+from flask import Flask, request, render_template, Response, jsonify
 from datetime import datetime
 from time import time
 from functools import wraps
@@ -249,7 +249,7 @@ def test_s3(scan_id, file_id):
         ContentType='text/plain'
     )
     
-    return response
+    return jsonify(response)
     
 if __name__ == "__main__":
     #import os
