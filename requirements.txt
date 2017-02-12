@@ -6,3 +6,4 @@ gevent-websocket
 uwsgitop
 werkzeug
 requests
+boto3
