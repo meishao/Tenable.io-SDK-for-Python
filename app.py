@@ -234,7 +234,7 @@ def test_s3(scan_id, file_id):
     client = TenableIOClient()
     request_uri = 'scans/' + str(scan_id) + '/export/' + str(file_id) + '/download'
     resp = client.get(request_uri, path_params={'scan_id':scan_id, 'file_id':file_id}, stream=True)
-    iter_content = resp.iter_content()
+    #iter_content = resp.iter_content()
     
     S3_BUCKET = os.environ.get('S3_BUCKET')
     s3 = boto3.resource('s3')
@@ -244,7 +244,7 @@ def test_s3(scan_id, file_id):
     obj = bucket.Object(PUT_OBJECT_KEY_NAME)
 
     response = obj.put(
-        Body=iter_content,
+        Body=resp.text,
         ContentEncoding='utf-8',
         ContentType='text/csv'
     )
