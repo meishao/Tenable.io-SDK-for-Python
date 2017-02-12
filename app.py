@@ -227,14 +227,19 @@ def test_dir():
     str_msg = str(os.path.isfile(tenable_csv_folder)) + "|" + str(os.getcwd())
     return render_template('index.html', message=str_msg)
 
-@app.route('/test_s3')
-def test_s3():
+@app.route('/test_s3/<int:scan_id>/<int:file_id>')
+def test_s3(scan_id, file_id):
     
+    # インスタンス初期化
+    client = TenableIOClient()
+    request_uri = 'scans/' + str(scan_id) + '/export/' + str(file_id) + '/download'
+    resp = client.get(request_uri, path_params={'scan_id':scan_id, 'file_id':file_id}, stream=True)
+    iter_content = resp.iter_content()
     S3_BUCKET = os.environ.get('S3_BUCKET')
     s3 = boto3.client('s3')
-    data = u'this is a test'
-    s3.upload_fileobj(data, S3_BUCKET, '20170212_tenable.csv')
-    s3.upload_fileobj(data, S3_BUCKET, '/tenable/20170212_tenable.csv')
+    
+    s3.upload_fileobj(iter_content, S3_BUCKET, '20170212_tenable.csv')
+    s3.upload_fileobj(iter_content, S3_BUCKET, '/tenable/20170212_tenable.csv')
 
 if __name__ == "__main__":
     #import os
