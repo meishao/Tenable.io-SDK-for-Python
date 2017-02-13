@@ -2,7 +2,7 @@ import boto3
 import os
 from flask import Flask, jsonify
 
-Class S3Api(object):
+class S3Api(object):
     
     def __init__(self, s3, bucket):
         
