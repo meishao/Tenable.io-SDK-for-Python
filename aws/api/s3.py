@@ -4,11 +4,11 @@ from flask import Flask, jsonify
 
 class S3Api(object):
     
-    def __init__(self, s3, bucket):
+    def __init__(self, s3=None, _bucket=None):
         
         S3_BUCKET = os.environ.get('S3_BUCKET')
         
-        self.s3 = boto3.resource('s3')
+        self.s3 = boto3.resource(s3)
         self.bucket = s3.Bucket(S3_BUCKET)
     
     def response(self, _filename, _resp):
