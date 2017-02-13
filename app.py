@@ -194,12 +194,13 @@ def report_ope(ope, scan_id, file_id):
     client = TenableIOClient()
     # 一時レポートCSVファイル名
     todaynow = datetime.today().strftime('%Y%m%d%H%M%S')
-    tenable_csv_folder = '/app/csv_report/tenable/'
+    tenable_csv_folder = 'csv_report/'
     tenable_csv_file = tenable_csv_folder + str(todaynow) + '_scanid_' + str(scan_id) + '.csv'
-    if os.path.isdir(tenable_csv_folder):
-        pass
-    else:
-        os.makedirs(tenable_csv_folder)
+    # ローカル環境適用
+    #if os.path.isdir(tenable_csv_folder):
+    #    pass
+    #else:
+    #    os.makedirs(tenable_csv_folder)
     if ope == 'status':
         request_uri = 'scans/' + str(scan_id) + '/export/' + str(file_id) + '/status'
         resp = client.get(request_uri, path_params={'scan_id':scan_id, 'file_id':file_id})
@@ -209,13 +210,18 @@ def report_ope(ope, scan_id, file_id):
     elif ope == 'download':
         request_uri = 'scans/' + str(scan_id) + '/export/' + str(file_id) + '/download'
         resp = client.get(request_uri, path_params={'scan_id':scan_id, 'file_id':file_id}, stream=True)
+        # ローカル環境適用
         #iter_content = resp.iter_content(chunk_size=1024)
         #with open(tenable_csv_file, mode='wb') as fd:
         #    for ck in iter_content:
         #        fd.write(ck)
         #str_msg = u'https://tenable-io.herokuapp.com/' + tenable_csv_file 
         #return render_template('index.html', message=str_msg)
-        return render_template('index.html', message=resp.text)
+        # AWS S3に保存する
+        s3 = S3Api()
+        response = s3.response('20170213_tenable.csv', resp.text)
+        return response
+        #return render_template('index.html', message=resp.text)
     else:
         return render_template('index.html', message=u"REPORT_OPE|不正アクセスを記録しました。")
 
