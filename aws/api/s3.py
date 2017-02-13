@@ -13,11 +13,11 @@ class S3Api(object):
         s3 = boto3.resource('s3')
         bucket = s3.Bucket(S3_BUCKET)
         
-        PUT_OBJECT_KEY_NAME = self._filename
+        PUT_OBJECT_KEY_NAME = _filename
         obj = bucket.Object(PUT_OBJECT_KEY_NAME)
         
         _response = obj.put(
-            Body=self._resp,
+            Body=_resp,
             ContentEncoding='utf-8',
             ContentType='text/csv'
         )
