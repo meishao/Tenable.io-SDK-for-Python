@@ -4,7 +4,7 @@ from flask import Flask, jsonify
 
 class S3Api(object):
     
-    def __init__(self s3=None, bucket=None):
+    def __init__(self, s3=None, bucket=None):
         
         S3_BUCKET = os.environ.get('S3_BUCKET')
         
