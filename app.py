@@ -6,6 +6,7 @@ from time import time
 from functools import wraps
 import os
 import boto3
+import json
 
 from tenable_io.api.models import Folder
 from tenable_io.api.models import Scan
@@ -13,7 +14,8 @@ from tenable_io.api.scans import ScansApi, ScanCreateRequest, ScanExportRequest,
 
 from tenable_io.client import TenableIOClient
 from tenable_io.exceptions import TenableIOApiException
-import json
+
+from aws.api.s3 import S3Api
 
 def check_auth(username, password):
     """This function is called to check if a username /
@@ -226,6 +228,19 @@ def test_dir():
         os.makedirs(tenable_csv_folder)
     str_msg = str(os.path.isfile(tenable_csv_folder)) + "|" + str(os.getcwd())
     return render_template('index.html', message=str_msg)
+
+@app.route('/s3_api/<int:scan_id>/<int:file_id>')
+def s3_api(scan_id, file_id):
+    
+    # インスタンス初期化
+    client = TenableIOClient()
+    request_uri = 'scans/' + str(scan_id) + '/export/' + str(file_id) + '/download'
+    resp = client.get(request_uri, path_params={'scan_id':scan_id, 'file_id':file_id}, stream=True)
+    
+    s3 = S3Api()
+    response = s3.response('20170213_tenable.csv', resp.text)
+    
+    return response
 
 @app.route('/test_s3/<int:scan_id>/<int:file_id>')
 def test_s3(scan_id, file_id):
