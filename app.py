@@ -219,7 +219,7 @@ def report_ope(ope, scan_id, file_id):
         #return render_template('index.html', message=str_msg)
         # AWS S3に保存する
         s3 = S3Api()
-        response = s3.response('20170213_tenable.csv', resp.text)
+        response = s3.response(tenable_csv_file, resp.text)
         return response
         #return render_template('index.html', message=resp.text)
     else:
