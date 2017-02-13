@@ -222,11 +222,11 @@ def report_ope(ope, scan_id, file_id):
 @app.route('/test_dir')
 def test_dir():
     tenable_csv_folder = '/app/tmp/csv_report/'
-    if os.path.isfile(tenable_csv_folder):
+    if os.path.isdir(tenable_csv_folder):
         pass
     else:
         os.makedirs(tenable_csv_folder)
-    str_msg = str(os.path.isfile(tenable_csv_folder)) + "|" + str(os.getcwd())
+    str_msg = str(os.path.isdir(tenable_csv_folder)) + "|" + str(os.getcwd())
     return render_template('index.html', message=str_msg)
 
 @app.route('/s3_api/<int:scan_id>/<int:file_id>')
